@@ -18,6 +18,7 @@ import {
   PersonAdd,
   Pages,
   Person,
+  People,
 } from '@material-ui/icons';
 import SidebarItem from './SidebarItem';
 
@@ -83,7 +84,7 @@ const Sidebar = (props) => {
         <Ballot />
       </SidebarItem>
       <SidebarItem path="/experts" title={'Experts'}>
-        <Ballot />
+        <People />
       </SidebarItem>
       <SidebarItem path="/users" title={'Users'}>
         <Person />

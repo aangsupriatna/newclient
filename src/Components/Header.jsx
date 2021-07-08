@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from "prop-types";
 import clsx from 'clsx';
+import Cookies from 'js-cookie';
 import {
   makeStyles,
   AppBar,
@@ -93,8 +94,8 @@ function Header(props) {
   };
 
   const handleSignOut = () => {
-    localStorage.removeItem('x-access-token');
-    localStorage.removeItem('x-refresh-token');
+    Cookies.remove('accessToken');
+    Cookies.remove('refreshToken');
     props.history.replace("/signin");
   };
 

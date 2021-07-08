@@ -1,7 +1,8 @@
 import React from 'react';
-import { useQuery, useMutation, gql } from 'urql';
+import { useQuery, useMutation, gql, } from 'urql';
 import { makeStyles } from '@material-ui/core/styles';
 import { Redirect, withRouter } from 'react-router-dom';
+import Cookies from 'js-cookie';
 import {
   Button,
   TextField,
@@ -72,15 +73,21 @@ const Signin = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     signin({ email, password }).then(({ data }) => {
-      console.log(data)
-      if (data.signin !== null) {
-        localStorage.setItem("x-access-token", data.signin.accessToken);
-        localStorage.setItem("x-refresh-token", data.signin.refreshToken);
+      // console.log(data.signin)
+      if (!data.signin) return setIsErrorInput(true)
+      if (data.signin.accessToken !== null && data.signin.refreshToken !== null) {
+        Cookies.set("accessToken", data.signin.accessToken);
+        Cookies.set("refreshToken", data.signin.refreshToken);
+        if (remember) {
+          Cookies.set("rememberMe", true)
+        } else {
+          Cookies.remove("rememberMe")
+        }
         props.history.replace("/dashboard");
       } {
         setIsErrorInput(true)
       }
-    })
+    });
   }
 
   const handleEmail = (event) => {
