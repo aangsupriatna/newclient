@@ -59,6 +59,7 @@ const useStyles = makeStyles((theme) => ({
 const Sidebar = (props) => {
   const history = useHistory();
   const classes = useStyles();
+
   return (
     <Drawer
       variant="permanent"
@@ -79,6 +80,9 @@ const Sidebar = (props) => {
         <Dashboard />
       </SidebarItem>
       <SidebarItem path="/projects" title={'Projects'}>
+        <Ballot />
+      </SidebarItem>
+      <SidebarItem path="/experts" title={'Experts'}>
         <Ballot />
       </SidebarItem>
       <SidebarItem path="/users" title={'Users'}>

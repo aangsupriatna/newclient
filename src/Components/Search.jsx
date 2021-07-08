@@ -4,6 +4,7 @@ import { fade, makeStyles } from '@material-ui/core/styles';
 import {
   Search
 } from '@material-ui/icons'
+import { withRouter } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   search: {
@@ -47,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const SearchInput = () => {
+const SearchInput = (props) => {
   const classes = useStyles();
   return (
     <div className={classes.search}>
@@ -66,4 +67,4 @@ const SearchInput = () => {
   )
 }
 
-export default SearchInput;
+export default withRouter(SearchInput);

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useHistory } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import {
   ListItem,
   ListItemText,
@@ -8,10 +8,12 @@ import {
 } from '@material-ui/core';
 
 const SidebarItem = (props) => {
-  const history = useHistory();
+  const handleListItem = () => {
+    props.history.push(props.path);
+  }
 
   return (
-    <ListItem button onClick={() => { history.push(props.path) }}>
+    <ListItem button onClick={handleListItem} path={props.path}>
       <ListItemIcon>
         {props.children}
       </ListItemIcon>
@@ -21,9 +23,10 @@ const SidebarItem = (props) => {
 }
 
 SidebarItem.propTypes = {
-  path: PropTypes.string.isRequired,
+  path: PropTypes.string,
+  handle: PropTypes.func,
   children: PropTypes.node.isRequired,
   title: PropTypes.string.isRequired,
 }
 
-export default SidebarItem
+export default withRouter(SidebarItem)

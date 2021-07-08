@@ -12,11 +12,13 @@ const client = createClient({
     fetchExchange,
   ],
   fetchOptions: () => {
-    const token = localStorage.getItem("token");
-    return token
+    const accestoken = localStorage.getItem("x-access-token");
+    const refreshtoken = localStorage.getItem("x-refresh-token");
+    return accestoken
       ? {
         headers: {
-          Authorization: `Bearer ${token}`
+          accestoken,
+          refreshtoken,
         }
       }
       : {};
@@ -24,12 +26,12 @@ const client = createClient({
 });
 
 ReactDOM.render(
-  <React.StrictMode>
+  <React.Suspense>
     <Provider value={client}>
       <BrowserRouter>
         <App />
       </BrowserRouter>
     </Provider>
-  </React.StrictMode>,
+  </React.Suspense>,
   document.getElementById('root')
 );

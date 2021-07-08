@@ -36,6 +36,8 @@ const useStyles = makeStyles((theme) => ({
   avatar: {
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
+    width: theme.spacing(7),
+    height: theme.spacing(7),
   },
 }));
 
@@ -47,7 +49,7 @@ const SignIn = ({ children, ...rest }) => {
       <CssBaseline />
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
-          <LockOutlined />
+          <LockOutlined fontSize="large" />
         </Avatar>
         {children}
       </div>

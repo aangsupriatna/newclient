@@ -3,8 +3,9 @@ import {
   Typography,
   Link
 } from '@material-ui/core';
+import { withRouter } from 'react-router-dom';
 
-const Footer = () => {
+const Footer = (props) => {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
@@ -17,4 +18,4 @@ const Footer = () => {
   );
 };
 
-export default Footer;
+export default withRouter(Footer);

@@ -8,9 +8,14 @@ import {
   Link,
   Grid,
   Typography,
+  Paper,
 } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    padding: theme.spacing(3),
+    marginTop: theme.spacing(1),
+  },
   form: {
     width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing(1),
@@ -24,33 +29,21 @@ const Signup = () => {
   const classes = useStyles();
 
   return (
-    <React.Fragment>
+    <Paper className={classes.root}>
       <Typography component="h1" variant="h5">
         Sign up
       </Typography>
       <form className={classes.form} noValidate>
         <Grid container spacing={2}>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              autoComplete="fname"
-              name="firstName"
-              variant="outlined"
-              required
-              fullWidth
-              id="firstName"
-              label="First Name"
-              autoFocus
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12}>
             <TextField
               variant="outlined"
               required
               fullWidth
-              id="lastName"
-              label="Last Name"
-              name="lastName"
-              autoComplete="lname"
+              id="username"
+              label="User Name"
+              name="username"
+              autoComplete="username"
             />
           </Grid>
           <Grid item xs={12}>
@@ -94,13 +87,13 @@ const Signup = () => {
         </Button>
         <Grid container justifycontent="flex-end">
           <Grid item>
-            <Link href="#" variant="body2">
+            <Link href="/signin" variant="body2">
               Already have an account? Sign in
             </Link>
           </Grid>
         </Grid>
       </form>
-    </React.Fragment>
+    </Paper>
   )
 }
 

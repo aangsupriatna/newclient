@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  BrowserRouter as Router,
+  Router,
   Route,
   Switch,
   Redirect,
@@ -13,15 +13,17 @@ import Projects from './Pages/Projects';
 import Users from './Pages/Users';
 import Signin from './Pages/Users/Signin';
 import Signup from './Pages/Users/Signup';
+import Experts from './Pages/Experts';
 
 const App = () => {
   const history = useHistory();
   return (
-    <Router>
+    <Router history={history}>
       <Switch>
         <Route exact path="/"><Redirect to="/dashboard" /></Route>
         <DashboardLayout exact path="/dashboard" component={Dashboard} />
         <DashboardLayout exact path="/projects" component={Projects} />
+        <DashboardLayout exact path="/experts" component={Experts} />
         <DashboardLayout exact path="/users" component={Users} />
         <SigninLayout exact path="/signin" component={Signin} />
         <SigninLayout exact path="/signup" component={Signup} />
