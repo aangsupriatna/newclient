@@ -101,6 +101,10 @@ const Signin = (props) => {
   const handleRemember = (event) => {
     setRemember(event.target.checked);
   };
+  const handleLink = (event) => {
+    event.preventDefault();
+    props.history.replace("/signup")
+  }
 
   // if (isAuthenticated) return <Redirect to="/dashboard" />
   return (
@@ -158,7 +162,7 @@ const Signin = (props) => {
               </Link>
             </Grid>
             <Grid item>
-              <Link href="/signup" variant="body2">
+              <Link href="/signup" variant="body2" onClick={handleLink}>
                 {"Don't have an account? Sign Up"}
               </Link>
             </Grid>

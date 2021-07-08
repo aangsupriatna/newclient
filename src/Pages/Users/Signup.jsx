@@ -25,9 +25,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Signup = () => {
+const Signup = (props) => {
   const classes = useStyles();
 
+  const handleLink = (event) => {
+    event.preventDefault();
+    props.history.replace("/signin")
+  }
   return (
     <Paper className={classes.root}>
       <Typography component="h1" variant="h5">
@@ -87,7 +91,7 @@ const Signup = () => {
         </Button>
         <Grid container justifycontent="flex-end">
           <Grid item>
-            <Link href="/signin" variant="body2">
+            <Link href="/signin" variant="body2" onClick={handleLink}>
               Already have an account? Sign in
             </Link>
           </Grid>
