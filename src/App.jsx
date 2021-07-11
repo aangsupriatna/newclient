@@ -15,14 +15,14 @@ import Signin from './Pages/Users/Signin';
 import Signup from './Pages/Users/Signup';
 import Experts from './Pages/Experts';
 
-
-const App = () => {
+const App = (props) => {
   const history = useHistory();
+
   return (
     <Router history={history}>
       <Switch>
         <Route exact path="/"><Redirect to="/dashboard" /></Route>
-        <DashboardLayout exact path="/dashboard" component={Dashboard} />
+        <DashboardLayout exact path="/dashboard" component={Dashboard}/>
         <DashboardLayout exact path="/projects" component={Projects} />
         <DashboardLayout exact path="/experts" component={Experts} />
         <DashboardLayout exact path="/users" component={Users} />

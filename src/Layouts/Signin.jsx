@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { Redirect, Route } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import {
   Container,
@@ -12,6 +12,7 @@ import {
 import {
   LockOutlined
 } from '@material-ui/icons';
+import { checkAuth } from '../Middleware/Token';
 
 function Copyright() {
   return (
@@ -61,14 +62,14 @@ const SignIn = ({ children, ...rest }) => {
 }
 
 const SigninLayout = ({ component: Component, ...rest }) => {
+  const authed = checkAuth();
+
   return (
     <Route
       {...rest}
-      render={(props) => (
-        <SignIn>
-          <Component {...props} />
-        </SignIn>
-      )}
+      render={(props) => authed === false
+        ? <SignIn><Component {...props} /></SignIn>
+        : <Redirect to="/dashboard" />}
     />
   );
 };

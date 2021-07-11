@@ -1,7 +1,7 @@
-import Cookies from 'js-cookie';
+import React from 'react';
+import { delToken, getToken, setToken } from './Token';
 
-const addAuthToOperation = ({ authState, operation, }) => {
-  // console.log(authState)
+export const addAuthToOperation = ({ authState, operation, }) => {
   if (!authState || !authState.token) {
     return operation;
   }
@@ -18,70 +18,61 @@ const addAuthToOperation = ({ authState, operation, }) => {
         ...fetchOptions,
         headers: {
           ...fetchOptions.headers,
-          "Authorization": authState.token,
+          "Authorization": `Bearer ${authState.token}`,
         },
       },
     },
   };
 };
 
-const getAuth = async ({ authState, mutate }) => {
-  // console.log(authState)
+export const getAuth = async ({ authState, mutate }) => {
   if (!authState) {
-    const token = Cookies.get('accessToken');
-    const refreshToken = Cookies.get('refreshToken');
-    if (token && refreshToken) {
-      return { token, refreshToken };
+    const { accessToken, refreshToken } = getToken();
+    // console.log(accessToken)
+    if (accessToken && refreshToken) {
+      return { accessToken, refreshToken };
     }
     return null;
   }
 
   const refreshMutation = `
-  mutation($token: String){
-    refreshLogin(token: $token){
+  mutation($refreshToken: String){
+    refreshLogin(refreshToken: $refreshToken){
       accessToken
       refreshToken
     }
   }
   `
   const result = await mutate(refreshMutation, {
-    token: authState.token,
+    refreshToken: authState.refreshToken,
   });
 
   console.log(result.data?.refreshLogin)
   if (result.data?.refreshLogin) {
-    Cookies.set("accessToken", result.data.refreshLogin.accessToken);
-    Cookies.set("refreshToken", result.data.refreshLogin.refreshToken);
+    const newAccessToken = result.data.refreshLogin.accessToken;
+    const newRefreshToken = result.data.refreshLogin.refreshToken;
+    setToken(newAccessToken, newRefreshToken);
     return {
-      accessToken: result.data.refreshLogin.accessToken,
-      refreshToken: result.data.refreshLogin.refreshToken,
+      accessToken: newAccessToken,
+      refreshToken: newRefreshToken,
     }
   }
-  // console.log(result)
-
-  Cookies.remove('accessToken');
-  Cookies.remove('refreshToken');
+  delToken();
   return null;
 };
 
-const didAuthError = ({ error }) => {
-  console.log(error)
+export const didAuthError = ({ error }) => {
+  // console.log(error)
   // check if the error was an auth error (this can be implemented in various ways, e.g. 401 or a special error code)
   return error.graphQLErrors.some(
     e => e.extensions?.code === 'FORBIDDEN',
   );
 };
 
-const willAuthError = ({ authState }) => {
+export const willAuthError = ({ authState }) => {
   if (!authState) return true;
+  // console.log(authState)
   // e.g. check for expiration, existence of auth etc
   // console.log("error")
   return false;
 };
-
-export {
-  addAuthToOperation,
-  getAuth,
-  didAuthError,
-  willAuthError,
-}

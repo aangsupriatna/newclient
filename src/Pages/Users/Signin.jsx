@@ -1,8 +1,7 @@
 import React from 'react';
-import { useQuery, useMutation, gql, } from 'urql';
+import { useMutation } from 'urql';
 import { makeStyles } from '@material-ui/core/styles';
-import { Redirect, withRouter } from 'react-router-dom';
-import Cookies from 'js-cookie';
+import { withRouter } from 'react-router-dom';
 import {
   Button,
   TextField,
@@ -13,6 +12,8 @@ import {
   Typography,
   Paper,
 } from '@material-ui/core';
+import { SIGNIN_MUTATION } from '../../Query/Signin';
+import { setToken } from '../../Middleware/Token';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,57 +33,20 @@ const useStyles = makeStyles((theme) => ({
 const Signin = (props) => {
   const classes = useStyles();
 
-  let isAuthenticated = false;
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [isErrorInput, setIsErrorInput] = React.useState(null);
-  const [remember, setRemember] = React.useState(true);
-  const [date, setDate] = React.useState(new Date());
+  const [remember, setRemember] = React.useState(false);
 
-  const UserQuery = gql`
-  query {
-      isSignin
-    }
-  `
-  // const [result] = useQuery({ query: UserQuery })
-  // const { fetching, data } = result
-  // if (!fetching) {
-  //   if (data) {
-  //     isAuthenticated = data.isSignin
-  //   }
-  // }
+  const [signdata, signin] = useMutation(SIGNIN_MUTATION);
 
-  React.useEffect(() => {
-    const interval = setInterval(() => {
-      setDate(new Date())
-    }, 1000)
-
-    return () => clearInterval(interval)
-  }, []);
-
-  // SIGNIN
-  const [signdata, signin] = useMutation(`
-    mutation($email: String!, $password: String!) {
-      signin(input:{email: $email, password: $password}){
-        accessToken
-        refreshToken
-      }
-    }
-  `);
-
-  const handleSubmit = (e) => {
+  function handleSubmit(e) {
     e.preventDefault();
+
     signin({ email, password }).then(({ data }) => {
-      // console.log(data.signin)
-      if (!data.signin) return setIsErrorInput(true)
+      if (!data.signin) return setIsErrorInput(true);
       if (data.signin.accessToken !== null && data.signin.refreshToken !== null) {
-        Cookies.set("accessToken", data.signin.accessToken);
-        Cookies.set("refreshToken", data.signin.refreshToken);
-        if (remember) {
-          Cookies.set("rememberMe", true)
-        } else {
-          Cookies.remove("rememberMe")
-        }
+        setToken(data.signin.accessToken, data.signin.refreshToken);
         props.history.replace("/dashboard");
       } {
         setIsErrorInput(true)
@@ -93,20 +57,22 @@ const Signin = (props) => {
   const handleEmail = (event) => {
     setIsErrorInput(false);
     setEmail(event.target.value);
-  }
+  };
+  
   const handlePassword = (event) => {
     setIsErrorInput(false);
     setPassword(event.target.value);
-  }
+  };
+
   const handleRemember = (event) => {
     setRemember(event.target.checked);
   };
+
   const handleLink = (event) => {
     event.preventDefault();
     props.history.replace("/signup")
   }
 
-  // if (isAuthenticated) return <Redirect to="/dashboard" />
   return (
     <React.Fragment>
       <Paper className={classes.root}>

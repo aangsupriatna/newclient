@@ -5,11 +5,11 @@ import {
   Box,
   makeStyles
 } from '@material-ui/core';
-import { Route } from 'react-router-dom';
-
+import { Redirect, Route, withRouter } from 'react-router-dom';
 import Header from '../Components/Header';
 import Sidebar from '../Components/Sidebar';
 import Footer from '../Components/Footer';
+import { checkAuth } from '../Middleware/Token';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,6 +29,7 @@ const useStyles = makeStyles((theme) => ({
 const Layout = ({ children, ...rest }) => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
+
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -54,16 +55,16 @@ const Layout = ({ children, ...rest }) => {
 }
 
 const DashboardLayout = ({ component: Component, ...rest }) => {
+  const authed = checkAuth();
+
   return (
     <Route
       {...rest}
-      render={(props) => (
-        <Layout>
-          <Component {...props} />
-        </Layout>
-      )}
+      render={(props) => authed === true
+        ? <Layout><Component {...props} /></Layout>
+        : <Redirect to="/signin" />}
     />
-  );
-};
+  )
+}
 
-export default DashboardLayout;
+export default withRouter(DashboardLayout);

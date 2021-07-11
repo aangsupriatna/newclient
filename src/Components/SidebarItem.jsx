@@ -9,7 +9,9 @@ import {
 
 const SidebarItem = (props) => {
   const handleListItem = () => {
-    props.history.push(props.path);
+    props.history.push({
+      pathname: props.path
+    });
   }
 
   return (
@@ -24,7 +26,6 @@ const SidebarItem = (props) => {
 
 SidebarItem.propTypes = {
   path: PropTypes.string,
-  handle: PropTypes.func,
   children: PropTypes.node.isRequired,
   title: PropTypes.string.isRequired,
 }

@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from "prop-types";
 import clsx from 'clsx';
-import Cookies from 'js-cookie';
 import {
   makeStyles,
   AppBar,
@@ -10,8 +9,6 @@ import {
   Typography,
   Badge,
   Avatar,
-  Menu,
-  MenuItem,
   Popover,
   List,
   ListSubheader,
@@ -24,11 +21,11 @@ import { deepOrange, deepPurple } from '@material-ui/core/colors';
 import NotificationsIcon from '@material-ui/icons/Notifications'
 import MenuIcon from '@material-ui/icons/Menu';
 import InboxIcon from '@material-ui/icons/Inbox';
-import DraftsIcon from '@material-ui/icons/Drafts';
 import PersonRoundedIcon from '@material-ui/icons/PersonRounded';
 import Search from './Search';
 import { withRouter } from 'react-router-dom';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import { delToken } from '../Middleware/Token';
 
 const drawerWidth = 240;
 
@@ -94,9 +91,8 @@ function Header(props) {
   };
 
   const handleSignOut = () => {
-    Cookies.remove('accessToken');
-    Cookies.remove('refreshToken');
-    props.history.replace("/signin");
+    delToken()
+    props.history.push("/signin");
   };
 
   const open = Boolean(anchorEl);

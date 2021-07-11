@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from "prop-types";
 import clsx from 'clsx';
-import { useHistory } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import {
   IconButton,
   Drawer,
@@ -21,7 +21,6 @@ import {
   People,
 } from '@material-ui/icons';
 import SidebarItem from './SidebarItem';
-
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -58,7 +57,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Sidebar = (props) => {
-  const history = useHistory();
   const classes = useStyles();
 
   return (
@@ -110,4 +108,4 @@ Sidebar.propTypes = {
   open: PropTypes.bool
 }
 
-export default Sidebar;
+export default withRouter(Sidebar);

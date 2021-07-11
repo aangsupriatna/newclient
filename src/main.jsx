@@ -2,9 +2,8 @@ import { authExchange } from '@urql/exchange-auth';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
-import { createClient, dedupExchange, cacheExchange, fetchExchange, Provider } from 'urql';
+import { createClient, dedupExchange, cacheExchange, fetchExchange, errorExchange, Provider, gql } from 'urql';
 import { addAuthToOperation, getAuth, didAuthError, willAuthError } from './Middleware/Auth'
-import Cookies from 'js-cookie';
 import App from './App'
 
 const client = createClient({
@@ -12,6 +11,17 @@ const client = createClient({
   exchanges: [
     dedupExchange,
     cacheExchange,
+    errorExchange({
+      onError: (error) => {
+        const isAuthError = error.graphQLErrors.some(
+          e => e.extensions?.code === 'FORBIDDEN',
+        );
+
+        if (isAuthError) {
+          // clear storage, log the user out etc
+        }
+      }
+    }),
     authExchange({
       addAuthToOperation,
       getAuth,
@@ -20,20 +30,6 @@ const client = createClient({
     }),
     fetchExchange,
   ],
-  // fetchOptions: () => {
-  //   const accessToken = localStorage.getItem("accessToken");
-  //   const refreshToken = localStorage.getItem("refreshToken");
-  //   if (accessToken && refreshToken) {
-  //     return {
-  //       headers: {
-  //         accessToken,
-  //         refreshToken,
-  //       }
-  //     }
-  //   } else {
-  //     return {}
-  //   }
-  // }
 });
 
 ReactDOM.render(
