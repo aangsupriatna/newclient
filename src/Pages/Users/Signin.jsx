@@ -12,7 +12,7 @@ import {
   Typography,
   Paper,
 } from '@material-ui/core';
-import { SIGNIN_MUTATION } from '../../Query/Signin';
+import { SIGNIN_MUTATION } from '../../Query/Auth';
 import { setToken } from '../../Middleware/Token';
 
 const useStyles = makeStyles((theme) => ({
@@ -29,13 +29,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
 const Signin = (props) => {
   const classes = useStyles();
 
-  const [email, setEmail] = React.useState('');
-  const [password, setPassword] = React.useState('');
-  const [isErrorInput, setIsErrorInput] = React.useState(null);
+  const [state, setState] = React.useState({
+    email: '',
+    password: '',
+  })
+  const [error, setError] = React.useState(false);
   const [remember, setRemember] = React.useState(false);
 
   const [signdata, signin] = useMutation(SIGNIN_MUTATION);
@@ -43,25 +44,27 @@ const Signin = (props) => {
   function handleSubmit(e) {
     e.preventDefault();
 
-    signin({ email, password }).then(({ data }) => {
-      if (!data.signin) return setIsErrorInput(true);
+    signin({
+      email: state.email,
+      password: state.password
+    }).then(({ data }) => {
+      if (!data.signin) return setError(true);
       if (data.signin.accessToken !== null && data.signin.refreshToken !== null) {
         setToken(data.signin.accessToken, data.signin.refreshToken);
         props.history.replace("/dashboard");
       } {
-        setIsErrorInput(true)
+        setError(true)
       }
-    });
-  }
-
-  const handleEmail = (event) => {
-    setIsErrorInput(false);
-    setEmail(event.target.value);
+    })
   };
 
-  const handlePassword = (event) => {
-    setIsErrorInput(false);
-    setPassword(event.target.value);
+  const handleChange = (e) => {
+    const { id, value } = e.target
+    setState(prevState => ({
+      ...prevState,
+      [id]: value
+    }));
+    setError(false);
   };
 
   const handleRemember = (event) => {
@@ -81,9 +84,9 @@ const Signin = (props) => {
         </Typography>
         <form className={classes.form} noValidate onSubmit={handleSubmit}>
           <TextField
-            error={isErrorInput}
-            value={email}
-            onChange={handleEmail}
+            error={error}
+            value={state.email}
+            onChange={handleChange}
             variant="outlined"
             margin="normal"
             required
@@ -95,9 +98,9 @@ const Signin = (props) => {
             autoFocus
           />
           <TextField
-            error={isErrorInput}
-            value={password}
-            onChange={handlePassword}
+            error={error}
+            value={state.password}
+            onChange={handleChange}
             variant="outlined"
             margin="normal"
             required

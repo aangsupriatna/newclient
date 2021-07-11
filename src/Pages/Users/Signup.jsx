@@ -10,6 +10,8 @@ import {
   Typography,
   Paper,
 } from '@material-ui/core';
+import { useMutation } from 'urql';
+import { SIGNUP_MUTATION } from '../../Query/Auth';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,6 +30,43 @@ const useStyles = makeStyles((theme) => ({
 const Signup = (props) => {
   const classes = useStyles();
 
+  const [signupdata, signup] = useMutation(SIGNUP_MUTATION);
+  const [error, setError] = React.useState(false);
+  const [state, setState] = React.useState({
+    username: '',
+    email: '',
+    password: '',
+  });
+
+  const handleChange = (e) => {
+    const { id, value } = e.target
+    setState(prevState => ({
+      ...prevState,
+      [id]: value
+    }));
+    setError(false);
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    signup({
+      username: state.username,
+      email: state.email,
+      password: state.password
+    }).then(({ data }) => {
+      if (data.addUser) {
+        setState({
+          username: '',
+          email: '',
+          password: ''
+        });
+      } else {
+        setError(true);
+      }
+    });
+  }
+
   const handleLink = (event) => {
     event.preventDefault();
     props.history.replace("/signin")
@@ -37,10 +76,13 @@ const Signup = (props) => {
       <Typography component="h1" variant="h5">
         Sign up
       </Typography>
-      <form className={classes.form} noValidate>
+      <form className={classes.form} noValidate onSubmit={handleSubmit}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <TextField
+              onChange={handleChange}
+              value={state.username}
+              error={error}
               variant="outlined"
               required
               fullWidth
@@ -52,6 +94,9 @@ const Signup = (props) => {
           </Grid>
           <Grid item xs={12}>
             <TextField
+              onChange={handleChange}
+              value={state.email}
+              error={error}
               variant="outlined"
               required
               fullWidth
@@ -63,6 +108,9 @@ const Signup = (props) => {
           </Grid>
           <Grid item xs={12}>
             <TextField
+              onChange={handleChange}
+              value={state.password}
+              error={error}
               variant="outlined"
               required
               fullWidth

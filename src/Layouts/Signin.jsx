@@ -1,5 +1,5 @@
 import React from 'react';
-import { Redirect, Route } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import {
   Container,
@@ -12,7 +12,6 @@ import {
 import {
   LockOutlined
 } from '@material-ui/icons';
-import { checkAuth } from '../Middleware/Token';
 
 function Copyright() {
   return (
