@@ -1,8 +1,11 @@
 import React from 'react';
+import BasePage from '../../Components/BasePage';
 
 const Experts = () => {
   return (
-    <div>Hello experts</div>
+    <BasePage navigation={"Application / Experts"}>
+      <div>Hello experts</div>
+    </BasePage>
   )
 }
 

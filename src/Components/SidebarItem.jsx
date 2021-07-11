@@ -8,6 +8,9 @@ import {
 } from '@material-ui/core';
 
 const SidebarItem = (props) => {
+  const isActive = props.history.location.pathname === props.path;
+  const selected = isActive ? true : false;
+
   const handleListItem = () => {
     props.history.push({
       pathname: props.path
@@ -15,7 +18,7 @@ const SidebarItem = (props) => {
   }
 
   return (
-    <ListItem button onClick={handleListItem} path={props.path}>
+    <ListItem selected={selected} button onClick={handleListItem} path={props.path}>
       <ListItemIcon>
         {props.children}
       </ListItemIcon>

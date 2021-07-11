@@ -75,7 +75,7 @@ const Sidebar = (props) => {
 
       <Divider />
 
-      <SidebarItem path="/" title={'Dashboard'}>
+      <SidebarItem path="/dashboard" title={'Dashboard'}>
         <Dashboard />
       </SidebarItem>
       <SidebarItem path="/projects" title={'Projects'}>
@@ -95,9 +95,6 @@ const Sidebar = (props) => {
       </SidebarItem>
       <SidebarItem path="/signup" title={'Signup'}>
         <PersonAdd />
-      </SidebarItem>
-      <SidebarItem path="/signout" title={'Signout'}>
-        <ExitToApp />
       </SidebarItem>
     </Drawer>
   )

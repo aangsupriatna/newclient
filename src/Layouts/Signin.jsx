@@ -62,14 +62,11 @@ const SignIn = ({ children, ...rest }) => {
 }
 
 const SigninLayout = ({ component: Component, ...rest }) => {
-  const authed = checkAuth();
 
   return (
     <Route
       {...rest}
-      render={(props) => authed === false
-        ? <SignIn><Component {...props} /></SignIn>
-        : <Redirect to="/dashboard" />}
+      render={(props) => <SignIn><Component {...props} /></SignIn>}
     />
   );
 };
