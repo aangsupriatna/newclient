@@ -12,23 +12,11 @@ import {
 import {
   LockOutlined
 } from '@material-ui/icons';
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+import Footer from '../Components/Footer';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    marginTop: theme.spacing(6),
+    marginTop: theme.spacing(4),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -38,6 +26,9 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.secondary.main,
     width: theme.spacing(7),
     height: theme.spacing(7),
+  },
+  box: {
+    marginTop: theme.spacing(6),
   },
 }));
 
@@ -53,8 +44,8 @@ const SignIn = ({ children, ...rest }) => {
         </Avatar>
         {children}
       </div>
-      <Box mt={8}>
-        <Copyright />
+      <Box mt={8} className={classes.box}>
+        <Footer />
       </Box>
     </Container>
   );

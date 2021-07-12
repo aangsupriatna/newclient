@@ -11,7 +11,9 @@ import {
   Grid,
   Typography,
   Paper,
+  Collapse,
 } from '@material-ui/core';
+import Alert from '@material-ui/lab/Alert';
 import { SIGNIN_MUTATION } from '../../Query/Auth';
 import { setToken } from '../../Middleware/Token';
 
@@ -37,8 +39,11 @@ const Signin = (props) => {
     password: '',
   })
   const [error, setError] = React.useState(false);
+  const [message, setMessage] = React.useState({
+    severity: 'error',
+    value: '',
+  });
   const [remember, setRemember] = React.useState(false);
-
   const [signdata, signin] = useMutation(SIGNIN_MUTATION);
 
   function handleSubmit(e) {
@@ -47,13 +52,17 @@ const Signin = (props) => {
     signin({
       email: state.email,
       password: state.password
-    }).then(({ data }) => {
-      if (!data.signin) return setError(true);
-      if (data.signin.accessToken !== null && data.signin.refreshToken !== null) {
-        setToken(data.signin.accessToken, data.signin.refreshToken);
+    }).then(result => {
+      if (result.error) {
+        setError(true);
+        setMessage({
+          severity: 'error',
+          value: result.error.message,
+        });
+      } else {
+        setToken(result.data.signin.accessToken, result.data.signin.refreshToken);
+        setError(false);
         props.history.replace("/dashboard");
-      } {
-        setError(true)
       }
     })
   };
@@ -83,6 +92,9 @@ const Signin = (props) => {
           Sign in
         </Typography>
         <form className={classes.form} noValidate onSubmit={handleSubmit}>
+          <Collapse in={error}>
+            <Alert severity={message.severity} onClose={() => { setError(false) }}>{message.value}</Alert>
+          </Collapse>
           <TextField
             error={error}
             value={state.email}

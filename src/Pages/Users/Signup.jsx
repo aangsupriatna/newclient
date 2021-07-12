@@ -9,7 +9,9 @@ import {
   Grid,
   Typography,
   Paper,
+  Collapse,
 } from '@material-ui/core';
+import Alert from '@material-ui/lab/Alert';
 import { useMutation } from 'urql';
 import { SIGNUP_MUTATION } from '../../Query/Auth';
 
@@ -25,6 +27,10 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  collapse: {
+    marginBottom: theme.spacing(2),
+    marginTop: theme.spacing(1),
+  }
 }));
 
 const Signup = (props) => {
@@ -32,6 +38,10 @@ const Signup = (props) => {
 
   const [signupdata, signup] = useMutation(SIGNUP_MUTATION);
   const [error, setError] = React.useState(false);
+  const [message, setMessage] = React.useState({
+    severity: 'error',
+    value: '',
+  });
   const [state, setState] = React.useState({
     username: '',
     email: '',
@@ -54,15 +64,25 @@ const Signup = (props) => {
       username: state.username,
       email: state.email,
       password: state.password
-    }).then(({ data }) => {
-      if (data.addUser) {
+    }).then(result => {
+      console.log(result)
+      if (result.error) {
+        setError(true);
+        setMessage({
+          severity: 'error',
+          value: result.error.message,
+        });
+      } else {
         setState({
           username: '',
           email: '',
           password: ''
         });
-      } else {
-        setError(true);
+        setError(false);
+        setMessage({
+          severity: 'success',
+          value: 'User added success',
+        });
       }
     });
   }
@@ -77,6 +97,9 @@ const Signup = (props) => {
         Sign up
       </Typography>
       <form className={classes.form} noValidate onSubmit={handleSubmit}>
+        <Collapse in={error} className={classes.collapse}>
+          <Alert severity={message.severity} onClose={() => { setError(false) }}>{message.value}</Alert>
+        </Collapse>
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <TextField
