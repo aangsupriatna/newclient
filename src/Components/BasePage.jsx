@@ -20,7 +20,7 @@ const useClasses = makeStyles((theme) => ({
     flex: '1 1 100%',
   },
   Paper: {
-    padding: theme.spacing(3)
+    paddingTop: theme.spacing(2)
   },
   clear: {
     clear: "both"
