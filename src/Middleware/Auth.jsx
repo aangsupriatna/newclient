@@ -2,7 +2,8 @@ import React from 'react';
 import { delToken, getToken, setToken } from './Token';
 
 export const addAuthToOperation = ({ authState, operation, }) => {
-  if (!authState || !authState.token) {
+  // console.log(authState.accessToken)
+  if (!authState || !authState.accessToken) {
     return operation;
   }
   const fetchOptions =
@@ -18,7 +19,7 @@ export const addAuthToOperation = ({ authState, operation, }) => {
         ...fetchOptions,
         headers: {
           ...fetchOptions.headers,
-          "Authorization": `Bearer ${authState.token}`,
+          "Authorization": `Bearer ${authState.accessToken}`,
         },
       },
     },
@@ -47,7 +48,7 @@ export const getAuth = async ({ authState, mutate }) => {
     refreshToken: authState.refreshToken,
   });
 
-  console.log(result.data?.refreshLogin)
+  // console.log(result.data?.refreshLogin)
   if (result.data?.refreshLogin) {
     const newAccessToken = result.data.refreshLogin.accessToken;
     const newRefreshToken = result.data.refreshLogin.refreshToken;

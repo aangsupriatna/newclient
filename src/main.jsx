@@ -34,11 +34,11 @@ const client = createClient({
 
 ReactDOM.render(
   <React.Suspense>
-    <Provider value={client}>
-      <BrowserRouter>
+    <BrowserRouter>
+      <Provider value={client}>
         <App />
-      </BrowserRouter>
-    </Provider>
+      </Provider>
+    </BrowserRouter>
   </React.Suspense>,
   document.getElementById('root')
 );

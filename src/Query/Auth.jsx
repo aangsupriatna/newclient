@@ -2,8 +2,8 @@ import React from 'react';
 import { useMutation } from 'urql';
 
 const SIGNIN_MUTATION = `
-  mutation($email: String!, $password: String!) {
-    signin(input:{email: $email, password: $password}){
+  mutation($email: String!, $password: String!, $expire: Boolean) {
+    signin(input:{email: $email, password: $password, expire: $expire}){
       accessToken
       refreshToken
     }

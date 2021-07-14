@@ -38,8 +38,8 @@ const useStyles = makeStyles((theme) => ({
     }),
   },
   appBarShift: {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
+    marginLeft: theme.drawer.width,
+    width: `calc(100% - ${theme.drawer.width}px)`,
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
@@ -110,11 +110,11 @@ function Header(props) {
         >
           <MenuIcon />
         </IconButton>
-        <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
+        {/* <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
           Konsultan-4.0
-        </Typography>
+        </Typography> */}
         <Search />
-        <div></div>
+        <div className={classes.title}></div>
         <IconButton color="inherit">
           <Badge badgeContent={4} color="secondary">
             <NotificationsIcon />

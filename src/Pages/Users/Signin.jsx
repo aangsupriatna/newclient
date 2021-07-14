@@ -34,24 +34,32 @@ const useStyles = makeStyles((theme) => ({
 const Signin = (props) => {
   const classes = useStyles();
 
+  // Input State
   const [state, setState] = React.useState({
     email: '',
     password: '',
-  })
+  });
+
+  // Error State
   const [error, setError] = React.useState(false);
   const [message, setMessage] = React.useState({
     severity: 'error',
     value: '',
   });
+
+  // Rember Me State
   const [remember, setRemember] = React.useState(false);
+
+  // Signin mutation
   const [signdata, signin] = useMutation(SIGNIN_MUTATION);
 
+  // Submit forms
   function handleSubmit(e) {
     e.preventDefault();
-
     signin({
       email: state.email,
-      password: state.password
+      password: state.password,
+      expire: remember,
     }).then(result => {
       if (result.error) {
         setError(true);
@@ -67,6 +75,7 @@ const Signin = (props) => {
     })
   };
 
+  // Handle input change
   const handleChange = (e) => {
     const { id, value } = e.target
     setState(prevState => ({
@@ -76,10 +85,13 @@ const Signin = (props) => {
     setError(false);
   };
 
+  // Handle remember me input
   const handleRemember = (event) => {
     setRemember(event.target.checked);
+    console.log(remember)
   };
 
+  // Handle signup link
   const handleLink = (event) => {
     event.preventDefault();
     props.history.replace("/signup")
@@ -88,7 +100,7 @@ const Signin = (props) => {
   return (
     <React.Fragment>
       <Paper className={classes.root}>
-        <Typography component="h1" variant="h5">
+        <Typography component="h1" variant="h4">
           Sign in
         </Typography>
         <form className={classes.form} noValidate onSubmit={handleSubmit}>

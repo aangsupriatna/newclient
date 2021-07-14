@@ -13,15 +13,13 @@ import {
   Dashboard,
   ChevronLeft,
   Ballot,
-  ExitToApp,
   Fingerprint,
   PersonAdd,
-  Pages,
   Person,
   People,
 } from '@material-ui/icons';
 import SidebarItem from './SidebarItem';
-const drawerWidth = 240;
+import Logo from './Logo';
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
@@ -37,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
   drawerPaper: {
     position: 'relative',
     whiteSpace: 'nowrap',
-    width: drawerWidth,
+    width: theme.drawer.width,
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
@@ -51,9 +49,12 @@ const useStyles = makeStyles((theme) => ({
     }),
     width: theme.spacing(7),
     [theme.breakpoints.up('sm')]: {
-      width: theme.spacing(9),
+      width: theme.spacing(7),
     },
   },
+  title: {
+    flexGrow: 1,
+  }
 }));
 
 const Sidebar = (props) => {
@@ -68,6 +69,9 @@ const Sidebar = (props) => {
       open={props.open}
     >
       <div className={classes.toolbarIcon}>
+        <Logo />
+        {/* <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>KONSULTAN 4.0</Typography> */}
+        <div></div>
         <IconButton onClick={props.handleDrawerClose}>
           <ChevronLeft />
         </IconButton>

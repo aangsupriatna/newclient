@@ -31,11 +31,14 @@ export const checkAuth = () => {
   let currentDate = new Date()
   if (accessToken) {
     const decoded = jwt_decode(accessToken, import.meta.env.VITE_JWT_KEY)
+    // const d = new Date(0);
+    // d.setUTCSeconds(decoded.exp);
+    // console.log(d);
     if (decoded.exp * 1000 < currentDate.getTime()) {
-      console.log("Token expired.");
+      // console.log("Token expired.");
       return false
     } else {
-      console.log("Valid token");
+      // console.log("Valid token");
       return true
     }
   }
