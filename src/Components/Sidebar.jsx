@@ -17,6 +17,7 @@ import {
   PersonAdd,
   Person,
   People,
+  PeopleAlt,
 } from '@material-ui/icons';
 import SidebarItem from './SidebarItem';
 import Logo from './Logo';
@@ -91,6 +92,9 @@ const Sidebar = (props) => {
         <Ballot />
       </SidebarItem>
       <SidebarItem path="/experts" title={'Experts'}>
+        <PeopleAlt />
+      </SidebarItem>
+      <SidebarItem path="/employee" title={'Employee'}>
         <People />
       </SidebarItem>
       <SidebarItem path="/users" title={'Users'}>

@@ -1,8 +1,9 @@
 import { Button, Link, makeStyles, Typography } from '@material-ui/core';
 import React from 'react';
+import { withRouter } from 'react-router';
 import BasePage from '../../Components/BasePage';
 import BaseToolbar from '../../Components/BaseToolbar';
-import ProjectTable from './Table';
+import ProjectTable from './Tables';
 
 const useClasses = makeStyles((theme) => ({
   Link: {
@@ -16,13 +17,13 @@ const useClasses = makeStyles((theme) => ({
 const Projects = (props) => {
   const classes = useClasses();
   const handleClick = (e) => {
-    alert('Hello from projects');
+    props.history.replace('/projects/forms');
   }
   return (
     <React.Fragment>
       <BaseToolbar navigation={"Application / Projects"}>
         <Typography className={classes.Link}>
-          <Link href="#" color='default' onClick={handleClick}>Hapus</Link>
+          <Link href="#" color='secondary' onClick={(e) => { }}>Hapus</Link>
         </Typography>
         <Button variant="contained" color="primary" onClick={handleClick}>Tambah</Button>
       </BaseToolbar>
@@ -33,4 +34,4 @@ const Projects = (props) => {
   )
 }
 
-export default Projects;
+export default withRouter(Projects);

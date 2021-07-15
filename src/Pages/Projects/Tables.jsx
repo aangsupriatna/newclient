@@ -19,6 +19,7 @@ import { PROJECTS_QUERY } from '../../Query/Projects';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
+import { withRouter } from 'react-router';
 
 const useStyles = makeStyles((theme) => ({
   avatar: {
@@ -36,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ProjectTable = () => {
+const ProjectTable = (props) => {
   const classes = useStyles();
 
   const [result] = useQuery({ query: PROJECTS_QUERY });
@@ -51,7 +52,7 @@ const ProjectTable = () => {
   const handlePageChange = (event, newPage) => {
     setPage(newPage);
   };
-  console.log(page);
+
   return (
     <React.Fragment>
       {fetching && <p>Loading...</p>}
@@ -117,4 +118,4 @@ const ProjectTable = () => {
   )
 }
 
-export default ProjectTable
+export default withRouter(ProjectTable);

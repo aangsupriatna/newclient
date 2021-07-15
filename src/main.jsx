@@ -3,6 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import { createClient, dedupExchange, cacheExchange, fetchExchange, errorExchange, Provider, gql } from 'urql';
+import { multipartFetchExchange } from '@urql/exchange-multipart-fetch';
 import { addAuthToOperation, getAuth, didAuthError, willAuthError } from './Middleware/Auth'
 import App from './App'
 
@@ -28,8 +29,9 @@ const client = createClient({
       didAuthError,
       willAuthError,
     }),
-    fetchExchange,
+    multipartFetchExchange,
   ],
+  requestPolicy: 'cache-first',
 });
 
 ReactDOM.render(
