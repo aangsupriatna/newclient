@@ -75,7 +75,7 @@ const ProjectTable = () => {
             </TableHead>
             <TableBody>
               {data.projects.slice(page * limit, page * limit + limit).map(project => (
-                <TableRow key={project.id}>
+                <TableRow key={project.id} hover>
                   <TableCell padding="checkbox">
                     <Checkbox checked={false} />
                   </TableCell>

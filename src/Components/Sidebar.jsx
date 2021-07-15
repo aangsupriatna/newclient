@@ -54,7 +54,12 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
-  }
+  },
+  centerMiddle: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 }));
 
 const Sidebar = (props) => {
@@ -69,9 +74,9 @@ const Sidebar = (props) => {
       open={props.open}
     >
       <div className={classes.toolbarIcon}>
-        <Logo />
+        <span className={classes.centerMiddle}><Logo /></span>
         {/* <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>KONSULTAN 4.0</Typography> */}
-        <div></div>
+        {/* <Logo /> */}
         <IconButton onClick={props.handleDrawerClose}>
           <ChevronLeft />
         </IconButton>

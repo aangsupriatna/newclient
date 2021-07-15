@@ -10,6 +10,7 @@ import Header from '../Components/Header';
 import Sidebar from '../Components/Sidebar';
 import Footer from '../Components/Footer';
 import { checkAuth } from '../Middleware/Token';
+import { grey } from '@material-ui/core/colors';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,6 +21,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     height: '100vh',
     overflow: 'auto',
+    // background: grey[20]
   },
   container: {
     paddingTop: theme.spacing(2),

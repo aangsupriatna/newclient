@@ -4,7 +4,8 @@ import React from 'react';
 
 const useStyles = makeStyles((theme) => ({
   logo: {
-    maxWidth: 120,
+    maxWidth: 130,
+    maxHeight: 60,
   }
 }));
 
@@ -14,7 +15,7 @@ const Logo = (props) => {
     <img
       className={classes.logo}
       alt="Logo"
-      src="/static/google.svg"
+      src="/static/logo_mak.svg"
       {...props}
     />
 

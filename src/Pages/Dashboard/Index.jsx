@@ -1,11 +1,15 @@
 import React from 'react';
 import BasePage from '../../Components/BasePage';
+import BaseToolbar from '../../Components/BaseToolbar';
 
 const Dashboard = () => {
   return (
-    <BasePage navigation={"Application / Dashboard"}>
-      <div>Hello dashboard</div>
-    </BasePage>
+    <React.Fragment>
+      <BaseToolbar navigation={"Application / Dashboard"} />
+      <BasePage>
+        <div>Hello dashboard</div>
+      </BasePage>
+    </React.Fragment>
   )
 }
 

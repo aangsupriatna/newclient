@@ -1,11 +1,15 @@
 import React from 'react';
 import BasePage from '../../Components/BasePage';
+import BaseToolbar from '../../Components/BaseToolbar';
 
 const Experts = () => {
   return (
-    <BasePage navigation={"Application / Experts"}>
-      <div>Hello experts</div>
-    </BasePage>
+    <React.Fragment>
+      <BaseToolbar navigation={"Application / Experts"} />
+      <BasePage>
+        <div>Hello experts</div>
+      </BasePage>
+    </React.Fragment>
   )
 }
 
