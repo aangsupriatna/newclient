@@ -23,7 +23,7 @@ const Projects = (props) => {
     <React.Fragment>
       <BaseToolbar navigation={"Application / Projects"}>
         <Typography className={classes.Link}>
-          <Link href="#" color='secondary' onClick={(e) => { }}>Hapus</Link>
+          <Link href="#" color="secondary" onClick={(e) => { }}>Hapus</Link>
         </Typography>
         <Button variant="contained" color="primary" onClick={handleClick}>Tambah</Button>
       </BaseToolbar>

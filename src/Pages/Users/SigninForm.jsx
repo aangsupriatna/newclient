@@ -1,10 +1,12 @@
 import React from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { Button, makeStyles, TextField, Typography, Paper, Grid, Link, FormControlLabel, Checkbox } from '@material-ui/core';
+import { Button, makeStyles, TextField, Typography, Paper, Grid, Link, FormControlLabel, Checkbox, Collapse } from '@material-ui/core';
 import { withRouter } from 'react-router';
 import { useMutation } from 'urql';
+import Alert from '@material-ui/lab/Alert';
 import { setToken } from '../../Middleware/Token';
+import { trimGQLError } from '../../Helpers/Utils';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,8 +45,6 @@ const validationSchema = yup.object({
 const SigninForm = (props) => {
   const classes = useStyles();
 
-  const [errors, setErrors] = React.useState(false);
-  const [message, setMessage] = React.useState({ severity: 'error', value: '' });
   const [remember, setRemember] = React.useState(false);
   const [res, executeMutation] = useMutation(signinMutation)
 
@@ -54,39 +54,33 @@ const SigninForm = (props) => {
 
   const handleLink = (event) => {
     event.preventDefault();
-    props.history.replace("/signup")
+    props.history.push("/signup")
   }
 
   const formik = useFormik({
     initialValues: {
-      email: 'john@email.com',
-      password: 'topsecret',
+      email: "john@email.com",
+      password: "topsecret",
     },
     validationSchema: validationSchema,
-    onSubmit: (value) => {
+    onSubmit: (value, { setSubmitting, setErrors, setStatus, resetForm }) => {
       executeMutation({
-        email: value.email,
-        password: value.password,
-        expire: remember,
+        email: value.email, password: value.password, expire: remember,
       }).then(result => {
         if (result.error) {
-          console.log(result.error)
-          setErrors(true);
-          setMessage({ severity: 'error', value: result.error.message });
+          const errorMessage = trimGQLError(result.error.message);
+          setErrors({ email: errorMessage });
         } else {
           setToken(result.data.signin.accessToken, result.data.signin.refreshToken);
-          props.history.replace("/dashboard");
+          props.history.push("/dashboard");
         }
       });
     }
   });
-
   return (
     <React.Fragment>
       <Paper className={classes.root}>
-        <Typography component="h1" variant="h4">
-          Sign in
-        </Typography>
+        <Typography component="h1" variant="h4">Sign in</Typography>
         <form className={classes.form} onSubmit={formik.handleSubmit}>
           <TextField
             fullWidth

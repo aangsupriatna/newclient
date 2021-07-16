@@ -16,7 +16,7 @@ import Signup from './Pages/Users/Signup';
 import Experts from './Pages/Experts';
 import { ThemeProvider } from '@material-ui/core/styles';
 import theme from './Theme';
-import ProjectForms from './Pages/Projects/Forms';
+import ProjectForm from './Pages/Projects/ProjectForm';
 import SigninForm from './Pages/Users/SigninForm';
 import SignupForm from './Pages/Users/SignupForm';
 
@@ -30,7 +30,7 @@ const App = (props) => {
           <Route exact path="/"><Redirect to="/dashboard" /></Route>
           <DashboardLayout exact path="/dashboard" component={Dashboard} />
           <DashboardLayout exact path="/projects" component={Projects} />
-          <DashboardLayout exact path="/projects/forms" component={ProjectForms} />
+          <DashboardLayout exact path="/projects/forms" component={ProjectForm} />
           <DashboardLayout exact path="/experts" component={Experts} />
           <DashboardLayout exact path="/employee" component={Experts} />
           <DashboardLayout exact path="/users" component={Users} />

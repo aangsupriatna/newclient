@@ -110,9 +110,6 @@ function Header(props) {
         >
           <MenuIcon />
         </IconButton>
-        {/* <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-          Konsultan-4.0
-        </Typography> */}
         <Search />
         <div className={classes.title}></div>
         <IconButton color="inherit">

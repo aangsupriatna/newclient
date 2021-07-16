@@ -4,6 +4,7 @@ import * as yup from 'yup';
 import { withRouter } from 'react-router';
 import { Button, makeStyles, TextField, Typography, Paper, Grid, Link, FormControlLabel, Checkbox } from '@material-ui/core';
 import { useMutation } from 'urql';
+import { trimGQLError } from '../../Helpers/Utils';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -50,12 +51,11 @@ const validationSchema = yup.object({
 
 const SignupForm = (props) => {
   const classes = useStyles();
-  const [message, setMessage] = React.useState({ severity: 'error', value: '', });
   const [res, executeMutation] = useMutation(signupMutation);
 
   const handleLink = (event) => {
     event.preventDefault();
-    props.history.replace("/signin")
+    props.history.push("/signin")
   }
 
   const formik = useFormik({
@@ -68,15 +68,14 @@ const SignupForm = (props) => {
     onSubmit: (value, { setSubmitting, setErrors, setStatus, resetForm }) => {
       executeMutation({ username: value.username, email: value.email, password: value.password, })
         .then(result => {
-          if (result.error) {
-            setErrors({ username: "User already exists." });
+          if (result) {
+            setErrors({ username: trimGQLError(result.error.message) });
           } else {
             resetForm({})
           }
         });
     }
   });
-
   return (
     <Paper className={classes.root}>
       <Typography component="h1" variant="h4">

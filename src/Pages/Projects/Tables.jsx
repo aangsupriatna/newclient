@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   LinearProgress,
-  IconButton,
   Table,
   TableBody,
   TableHead,
@@ -9,18 +8,41 @@ import {
   TableCell,
   Checkbox,
   Avatar,
-  Typography,
   TablePagination,
   Box,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles'
-import { useQuery } from 'urql';
-import { PROJECTS_QUERY } from '../../Query/Projects';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import DeleteIcon from '@material-ui/icons/Delete';
-import EditIcon from '@material-ui/icons/Edit';
+import { useMutation, useQuery } from 'urql';
 import { withRouter } from 'react-router';
+import MenuActionsTable from '../../Components/MenuActionsTable';
 
+const projectsQuery = `
+  query {
+    projects {
+      id
+      namaProyek
+      bidang
+      lokasi
+      namaPemberiTugas
+      alamatPemberiTugas
+      tanggalKontrak
+      nomorKontrak
+      nilaiKontrak
+      jv
+      jvWith
+      tanggalBast
+      nomorBast
+    }
+  }
+`
+
+const deleteProjectMutation = `
+  mutation($id: ID){
+    removeProject(id:$id){
+          id
+      }
+  }
+`
 const useStyles = makeStyles((theme) => ({
   avatar: {
     display: 'flex',
@@ -40,17 +62,31 @@ const useStyles = makeStyles((theme) => ({
 const ProjectTable = (props) => {
   const classes = useStyles();
 
-  const [result] = useQuery({ query: PROJECTS_QUERY });
+  const [result] = useQuery({ query: projectsQuery });
+  const [res, executeMutation] = useMutation(deleteProjectMutation);
+
   const { data, fetching, error } = result;
   const [limit, setLimit] = React.useState(10);
   const [page, setPage] = React.useState(0);
 
-  const handleLimitChange = (event) => {
-    setLimit(event.target.value);
+  const handleLimitChange = (e) => {
+    setLimit(e.target.value);
   };
 
-  const handlePageChange = (event, newPage) => {
+  const handlePageChange = (e, newPage) => {
     setPage(newPage);
+  };
+
+  const handleEdit = (id, e) => {
+    e.preventDefault();
+    alert(id);
+  };
+
+  const handleDelete = (id, e) => {
+    e.preventDefault();
+    executeMutation({ id }).then(result => {
+      console.log(result);
+    });
   };
 
   return (
@@ -93,9 +129,7 @@ const ProjectTable = (props) => {
                     <LinearProgress variant="determinate" value={45} />
                   </TableCell>
                   <TableCell align="center">
-                    <IconButton aria-label="edit" onClick={() => { alert(`edit project ${project.id}`) }}>
-                      <MoreVertIcon fontSize="small" />
-                    </IconButton>
+                    <MenuActionsTable handleEdit={handleEdit} handleDelete={handleDelete} row={project} />
                   </TableCell>
                 </TableRow>
               ))}

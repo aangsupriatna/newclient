@@ -12,10 +12,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ProjectForms = (props) => {
+const ProjectForm = (props) => {
   const classes = useStyles();
   const handleClick = () => {
-    props.history.goBack(0)
+    props.history.push("/projects")
   }
   return (
     <React.Fragment>
@@ -29,4 +29,4 @@ const ProjectForms = (props) => {
   )
 };
 
-export default withRouter(ProjectForms);
+export default withRouter(ProjectForm);
