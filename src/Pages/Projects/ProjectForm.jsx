@@ -65,12 +65,12 @@ const ProjectForm = (props) => {
         tanggalBast: value.tanggalBast,
         nomorBast: value.nomorBast,
       }).then(result => {
-        console.log(result)
+        // console.log(result)
       })
     }
   })
   const handleClick = () => {
-    props.history.goBack();
+    props.history.push("/projects");
   }
   return (
     <React.Fragment>

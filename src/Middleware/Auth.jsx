@@ -1,4 +1,6 @@
 import React from 'react';
+import jwt_decode from 'jwt-decode';
+import { Redirect } from 'react-router-dom';
 import { refreshMutation } from '../Query/Auth';
 import { delToken, getToken, setToken } from './Token';
 
@@ -64,9 +66,13 @@ export const didAuthError = ({ error }) => {
 };
 
 export const willAuthError = ({ authState }) => {
-  if (!authState) return true;
-  // console.log(authState)
   // e.g. check for expiration, existence of auth etc
-  // console.log("error")
+  let currentDate = new Date()
+  if (!authState) return true;
+  const decoded = jwt_decode(authState.accessToken);
+  // if (decoded.exp * 1000 < currentDate.getTime()) (
+  //   <Redirect to="/signin" />
+  // )
+  console.log(decoded)
   return false;
 };

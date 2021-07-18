@@ -30,7 +30,7 @@ export const checkAuth = () => {
   const { accessToken } = getToken();
   let currentDate = new Date()
   if (accessToken) {
-    const decoded = jwt_decode(accessToken, import.meta.env.VITE_JWT_KEY)
+    const decoded = jwt_decode(accessToken);
     // const d = new Date(0);
     // d.setUTCSeconds(decoded.exp);
     // console.log(d);

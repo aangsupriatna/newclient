@@ -1,5 +1,5 @@
 import React from "react";
-import { IconButton, ListItemText, ListItemIcon, Menu, MenuItem, Divider } from "@material-ui/core";
+import { IconButton, ListItemText, ListItemIcon, Menu, MenuItem, Divider, Typography } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import { makeStyles } from "@material-ui/core";
@@ -64,24 +64,25 @@ const MenuActionsTable = ({ row, handleEdit, handleDelete, handleDetails }) => {
           horizontal: 'center',
         }}
       >
+
+        <MenuItem onClick={(e) => handleMenuDetails(row.id, e)}>
+          <ListItemIcon>
+            <InfoIcon fontSize="small" />
+          </ListItemIcon>
+          <ListItemText primary="Details" />
+        </MenuItem>
         <MenuItem onClick={(e) => handleMenuEdit(row.id, e)}>
           <ListItemIcon>
             <EditIcon fontSize="small" />
           </ListItemIcon>
           <ListItemText primary="Edit" />
         </MenuItem>
+        <Divider />
         <MenuItem onClick={(e) => handleMenuDelete(row.id, e)}>
           <ListItemIcon>
-            <DeleteIcon fontSize="small" />
+            <DeleteIcon fontSize="small" color="secondary" />
           </ListItemIcon>
-          <ListItemText primary="Delete" />
-        </MenuItem>
-        <Divider />
-        <MenuItem onClick={(e) => handleMenuDetails(row.id, e)}>
-          <ListItemIcon>
-            <InfoIcon fontSize="small" />
-          </ListItemIcon>
-          <ListItemText primary="Details" />
+          <ListItemText disableTypography primary={<Typography color="secondary">Delete</Typography>} />
         </MenuItem>
       </Menu>
       <IconButton aria-label="simple-menu" aria-controls="simple-menu" aria-haspopup="true" onClick={handleMenuClick}>

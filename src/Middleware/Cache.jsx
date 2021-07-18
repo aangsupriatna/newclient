@@ -31,7 +31,6 @@ export const cache = cacheExchange({
       addProject: (result, args, cache, info) => {
         cache.updateQuery({ query: projectsQuery }, (data) => {
           if (data) {
-            console.log(data);
             const newThread = result.addProject;
             const hasThread = data.projects.some(
               (x) => x && x.id === newThread.id

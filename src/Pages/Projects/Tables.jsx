@@ -90,7 +90,7 @@ const ProjectTable = (props) => {
   const handleDelete = (id, e) => {
     e.preventDefault();
     executeMutation({ id }).then(result => {
-      console.log(result);
+      // console.log(result);
     });
   };
 

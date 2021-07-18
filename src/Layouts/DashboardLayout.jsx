@@ -58,7 +58,6 @@ const Layout = ({ children, ...rest }) => {
 
 const DashboardLayout = ({ component: Component, ...rest }) => {
   const authed = checkAuth();
-
   return (
     <Route
       {...rest}
