@@ -1,4 +1,5 @@
 import React from 'react';
+import { refreshMutation } from '../Query/Auth';
 import { delToken, getToken, setToken } from './Token';
 
 export const addAuthToOperation = ({ authState, operation, }) => {
@@ -36,14 +37,6 @@ export const getAuth = async ({ authState, mutate }) => {
     return null;
   }
 
-  const refreshMutation = `
-  mutation($refreshToken: String){
-    refreshLogin(refreshToken: $refreshToken){
-      accessToken
-      refreshToken
-    }
-  }
-  `
   const result = await mutate(refreshMutation, {
     refreshToken: authState.refreshToken,
   });

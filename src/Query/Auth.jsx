@@ -1,27 +1,49 @@
 import React from 'react';
-import { useMutation } from 'urql';
 
-const SIGNIN_MUTATION = `
-  mutation($email: String!, $password: String!, $expire: Boolean) {
-    signin(input:{email: $email, password: $password, expire: $expire}){
-      accessToken
-      refreshToken
-    }
-  }
-`
-
-const SIGNUP_MUTATION = `
-  mutation($username: String!, $email: String!, $password: String!) {
-    addUser(input: {username: $username, email: $email, password: $password }){
+export const meQuery = `
+  query {
+    me {
       id
       username
-      email
-      password
       isAdmin
     }
   }
 `
-export {
-  SIGNIN_MUTATION,
-  SIGNUP_MUTATION,
-}
+
+export const signinMutation = `
+  mutation($email: String!, $password: String!, $expire: Boolean) {
+    signin(input:{email: $email, password: $password, expire: $expire}){
+      accessToken
+      refreshToken
+      user {
+        id
+        username
+        isAdmin
+      }
+    }
+  }
+`
+
+export const signupMutation = `
+  mutation($username: String!, $email: String!, $password: String!) {
+    addUser(input: {username: $username, email: $email, password: $password }){
+      accessToken
+      refreshToken
+      user {
+        id
+        username
+        email
+        isAdmin
+      }
+    }
+  }
+`
+
+export const refreshMutation = `
+    mutation($refreshToken: String){
+      refreshLogin(refreshToken: $refreshToken){
+        accessToken
+        refreshToken
+      }
+    }
+  `

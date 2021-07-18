@@ -5,6 +5,7 @@ import { withRouter } from 'react-router';
 import { Button, makeStyles, TextField, Typography, Paper, Grid, Link, FormControlLabel, Checkbox } from '@material-ui/core';
 import { useMutation } from 'urql';
 import { trimGQLError } from '../../Helpers/Utils';
+import { signupMutation } from '../../Query/Auth';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,17 +25,6 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const signupMutation = `
-  mutation($username: String!, $email: String!, $password: String!) {
-    addUser(input: {username: $username, email: $email, password: $password }){
-      id
-      username
-      email
-      password
-      isAdmin
-    }
-  }
-`
 const validationSchema = yup.object({
   username: yup
     .string('Enter your username')
@@ -69,7 +59,8 @@ const SignupForm = (props) => {
       executeMutation({ username: value.username, email: value.email, password: value.password, })
         .then(result => {
           if (result) {
-            setErrors({ username: trimGQLError(result.error.message) });
+            console.log(result.data)
+            // setErrors({ username: trimGQLError(result.error.message) });
           } else {
             resetForm({})
           }

@@ -26,6 +26,8 @@ import Search from './Search';
 import { withRouter } from 'react-router-dom';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { delToken } from '../Middleware/Token';
+import { useQuery } from 'urql';
+import { meQuery } from '../Query/Auth';
 
 const drawerWidth = 240;
 
@@ -97,6 +99,7 @@ function Header(props) {
 
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
+  const [{ data, fetching }, refetch] = useQuery({ query: meQuery });
 
   return (
     <AppBar position="absolute" className={clsx(classes.appBar, (props.open) && classes.appBarShift)}>
@@ -118,7 +121,7 @@ function Header(props) {
           </Badge>
         </IconButton>
         <IconButton aria-describedby={id} color="inherit" onClick={handlePopup} aria-controls="simple-menu" aria-haspopup="true">
-          <Avatar className={classes.small}>AS</Avatar>
+          <Avatar className={classes.small}>{fetching ? "AS" : (data.me.username).slice(0, 2).toUpperCase()}</Avatar>
         </IconButton>
         <Popover
           id={id}

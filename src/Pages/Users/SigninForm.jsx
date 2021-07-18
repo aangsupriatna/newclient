@@ -7,6 +7,7 @@ import { useMutation } from 'urql';
 import Alert from '@material-ui/lab/Alert';
 import { setToken } from '../../Middleware/Token';
 import { trimGQLError } from '../../Helpers/Utils';
+import { signinMutation } from '../../Query/Auth';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,15 +22,6 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3, 0, 2),
   },
 }));
-
-const signinMutation = `
-  mutation($email: String!, $password: String!, $expire: Boolean) {
-    signin(input:{email: $email, password: $password, expire: $expire}){
-      accessToken
-      refreshToken
-    }
-  }
-`
 
 const validationSchema = yup.object({
   email: yup
@@ -46,7 +38,7 @@ const SigninForm = (props) => {
   const classes = useStyles();
 
   const [remember, setRemember] = React.useState(false);
-  const [res, executeMutation] = useMutation(signinMutation)
+  const [res, executeMutation] = useMutation(signinMutation);
 
   const handleRemember = (event) => {
     setRemember(event.target.checked);
@@ -71,7 +63,8 @@ const SigninForm = (props) => {
           const errorMessage = trimGQLError(result.error.message);
           setErrors({ email: errorMessage });
         } else {
-          setToken(result.data.signin.accessToken, result.data.signin.refreshToken);
+          const { accessToken, refreshToken } = result.data.signin
+          setToken(accessToken, refreshToken);
           props.history.push("/dashboard");
         }
       });

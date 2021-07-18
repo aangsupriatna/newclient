@@ -15,6 +15,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import { useMutation, useQuery } from 'urql';
 import { withRouter } from 'react-router';
 import MenuActionsTable from '../../Components/MenuActionsTable';
+import { grey } from '@material-ui/core/colors';
 
 const projectsQuery = `
   query {
@@ -37,7 +38,7 @@ const projectsQuery = `
 `
 
 const deleteProjectMutation = `
-  mutation($id: ID){
+  mutation removeProject($id: ID){
     removeProject(id:$id){
           id
       }
@@ -57,15 +58,19 @@ const useStyles = makeStyles((theme) => ({
     width: theme.spacing(7),
     height: theme.spacing(7),
   },
+  tableHover: {
+    "&:hover": {
+      backgroundColor: grey[5],
+    }
+  },
 }));
 
 const ProjectTable = (props) => {
   const classes = useStyles();
 
-  const [result] = useQuery({ query: projectsQuery });
+  const [{ data, fetching, error }, refetch] = useQuery({ query: projectsQuery });
   const [res, executeMutation] = useMutation(deleteProjectMutation);
 
-  const { data, fetching, error } = result;
   const [limit, setLimit] = React.useState(10);
   const [page, setPage] = React.useState(0);
 
@@ -89,13 +94,18 @@ const ProjectTable = (props) => {
     });
   };
 
+  const handleDetails = (id, e) => {
+    e.preventDefault();
+    alert(id)
+  };
+
   return (
     <React.Fragment>
       {fetching && <p>Loading...</p>}
       {error && <p>Oh no... {error.message}</p>}
       {data && (
         <Box>
-          <Table size="small">
+          <Table size="small" aria-label="projects table">
             <TableHead>
               <TableRow>
                 <TableCell padding="checkbox">
@@ -112,11 +122,11 @@ const ProjectTable = (props) => {
             </TableHead>
             <TableBody>
               {data.projects.slice(page * limit, page * limit + limit).map(project => (
-                <TableRow key={project.id} hover>
+                <TableRow key={project.id} className={classes.tableHover} hover>
                   <TableCell padding="checkbox">
                     <Checkbox checked={false} />
                   </TableCell>
-                  <TableCell>{project.namaProyek}</TableCell>
+                  <TableCell width={400}>{project.namaProyek}</TableCell>
                   <TableCell align="center">{project.lokasi}</TableCell>
                   <TableCell align="center">
                     <div className={classes.avatar}>
@@ -129,7 +139,7 @@ const ProjectTable = (props) => {
                     <LinearProgress variant="determinate" value={45} />
                   </TableCell>
                   <TableCell align="center">
-                    <MenuActionsTable handleEdit={handleEdit} handleDelete={handleDelete} row={project} />
+                    <MenuActionsTable handleEdit={handleEdit} handleDelete={handleDelete} handleDetails={handleDetails} row={project} />
                   </TableCell>
                 </TableRow>
               ))}

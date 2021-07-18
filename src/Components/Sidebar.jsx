@@ -6,6 +6,7 @@ import {
   IconButton,
   Drawer,
   Divider,
+  Box,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -75,9 +76,7 @@ const Sidebar = (props) => {
       open={props.open}
     >
       <div className={classes.toolbarIcon}>
-        <span className={classes.centerMiddle}><Logo /></span>
-        {/* <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>KONSULTAN 4.0</Typography> */}
-        {/* <Logo /> */}
+        <Box mx='auto' className={classes.centerMiddle}><Logo /></Box>
         <IconButton onClick={props.handleDrawerClose}>
           <ChevronLeft />
         </IconButton>

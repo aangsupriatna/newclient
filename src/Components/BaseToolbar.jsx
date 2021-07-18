@@ -43,7 +43,7 @@ const BaseToolbar = (props) => {
 
 BaseToolbar.propTypes = {
   navigation: PropTypes.string,
-  children: PropTypes.array,
+  children: PropTypes.object,
 };
 
 export default BaseToolbar;

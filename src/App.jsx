@@ -11,8 +11,6 @@ import DashboardLayout from './Layouts/DashboardLayout';
 import Dashboard from './Pages/Dashboard';
 import Projects from './Pages/Projects';
 import Users from './Pages/Users';
-import Signin from './Pages/Users/Signin';
-import Signup from './Pages/Users/Signup';
 import Experts from './Pages/Experts';
 import { ThemeProvider } from '@material-ui/core/styles';
 import theme from './Theme';
