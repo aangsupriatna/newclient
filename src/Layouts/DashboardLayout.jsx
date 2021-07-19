@@ -11,6 +11,8 @@ import Sidebar from '../Components/Sidebar';
 import Footer from '../Components/Footer';
 import { checkAuth } from '../Middleware/Token';
 import { grey } from '@material-ui/core/colors';
+import { useQuery } from 'urql';
+import { meQuery } from '../Query/Auth';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -58,6 +60,9 @@ const Layout = ({ children, ...rest }) => {
 
 const DashboardLayout = ({ component: Component, ...rest }) => {
   const authed = checkAuth();
+  // const [{ data, fetching }, refetch] = useQuery({ query: meQuery });
+  // const me = fetching ? "" : data.me
+  // console.log(authed);
   return (
     <Route
       {...rest}

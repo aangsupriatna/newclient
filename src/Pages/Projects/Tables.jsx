@@ -16,6 +16,7 @@ import { useMutation, useQuery } from 'urql';
 import { withRouter } from 'react-router';
 import MenuActionsTable from '../../Components/MenuActionsTable';
 import { grey } from '@material-ui/core/colors';
+import { deleteProjectMutation } from '../../Query/Projects';
 
 const projectsQuery = `
   query {
@@ -37,13 +38,6 @@ const projectsQuery = `
   }
 `
 
-const deleteProjectMutation = `
-  mutation removeProject($id: ID){
-    removeProject(id:$id){
-          id
-      }
-  }
-`
 const useStyles = makeStyles((theme) => ({
   avatar: {
     display: 'flex',
@@ -69,7 +63,7 @@ const ProjectTable = (props) => {
   const classes = useStyles();
 
   const [{ data, fetching, error }, refetch] = useQuery({ query: projectsQuery });
-  const [res, executeMutation] = useMutation(deleteProjectMutation);
+  const [res, executeDeleteProject] = useMutation(deleteProjectMutation);
 
   const [limit, setLimit] = React.useState(10);
   const [page, setPage] = React.useState(0);
@@ -84,13 +78,13 @@ const ProjectTable = (props) => {
 
   const handleEdit = (id, e) => {
     e.preventDefault();
-    alert(id);
+    props.history.push(`/projects/forms/${id}`)
   };
 
   const handleDelete = (id, e) => {
     e.preventDefault();
-    executeMutation({ id }).then(result => {
-      // console.log(result);
+    executeDeleteProject({ id }).then(result => {
+      console.log(result);
     });
   };
 

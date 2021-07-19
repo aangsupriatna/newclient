@@ -28,17 +28,13 @@ export const delToken = () => {
 
 export const checkAuth = () => {
   const { accessToken } = getToken();
+  // console.log(accessToken)
   let currentDate = new Date()
   if (accessToken) {
     const decoded = jwt_decode(accessToken);
-    // const d = new Date(0);
-    // d.setUTCSeconds(decoded.exp);
-    // console.log(d);
     if (decoded.exp * 1000 < currentDate.getTime()) {
-      // console.log("Token expired.");
       return false
     } else {
-      // console.log("Valid token");
       return true
     }
   }

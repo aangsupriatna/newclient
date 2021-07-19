@@ -69,10 +69,8 @@ export const willAuthError = ({ authState }) => {
   // e.g. check for expiration, existence of auth etc
   let currentDate = new Date()
   if (!authState) return true;
+
   const decoded = jwt_decode(authState.accessToken);
-  // if (decoded.exp * 1000 < currentDate.getTime()) (
-  //   <Redirect to="/signin" />
-  // )
-  console.log(decoded)
+  if (decoded.exp * 1000 < currentDate.getTime()) return true;
   return false;
 };

@@ -29,6 +29,7 @@ const App = (props) => {
           <DashboardLayout exact path="/dashboard" component={Dashboard} />
           <DashboardLayout exact path="/projects" component={Projects} />
           <DashboardLayout exact path="/projects/forms" component={ProjectForm} />
+          <DashboardLayout exact path="/projects/forms/:id" component={ProjectForm} />
           <DashboardLayout exact path="/experts" component={Experts} />
           <DashboardLayout exact path="/employee" component={Experts} />
           <DashboardLayout exact path="/users" component={Users} />

@@ -2,13 +2,13 @@ import React from 'react';
 import { cacheExchange } from '@urql/exchange-graphcache';
 import { setToken } from './Token';
 import { meQuery } from '../Query/Auth';
-import { projectsQuery } from '../Query/Projects';
+import { projectsQuery, updateProjectMutation } from '../Query/Projects';
 
 export const cache = cacheExchange({
   updates: {
     Mutation: {
-      removeProject: (result, args, cache, info) => { // execute delete todo
-        cache.invalidate({ __typename: 'Project', id: result.removeProject.id }); //delete todo in cache
+      removeProject: (result, args, cache, info) => { // execute delete project
+        cache.invalidate({ __typename: 'Project', id: args.id }); //delete project in cache
       },
       signin: (result, args, cache, info) => {
         if (result.signin) {
@@ -30,16 +30,20 @@ export const cache = cacheExchange({
       },
       addProject: (result, args, cache, info) => {
         cache.updateQuery({ query: projectsQuery }, (data) => {
-          if (data) {
-            const newThread = result.addProject;
-            const hasThread = data.projects.some(
-              (x) => x && x.id === newThread.id
-            );
-            if (!hasThread) data.projects.unshift(newThread);
-          }
-          return data
+          return { ...data, projects: [...data.projects, result.addProject] }
+          // if (data) {
+          //   const newThread = result.addProject;
+          //   const hasThread = data.projects.some(
+          //     (x) => x && x.id === newThread.id
+          //   );
+          //   if (!hasThread) data.projects.unshift(newThread);
+          // }
+          // return data
         });
+      },
+      updateProject: (result, args, cache, info) => {
+        cache.invalidate({ __typename: 'Project', id: result.updateProject.id });
       }
     },
   },
-})
+});
